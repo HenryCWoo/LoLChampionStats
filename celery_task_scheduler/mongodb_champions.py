@@ -25,7 +25,7 @@ ELO_MAPPING = {
     5: ""
 }
 
-
+# GET FULL INFO OF CHAMPION FROM CHAMPION.GG
 def get_full_champion_info(limit, skip, elo):
     url = "http://api.champion.gg/v2/champions"
 
@@ -56,7 +56,7 @@ def update_champion_id():
     response = requests.request("GET", url, headers=headers)
     champion_ids = response.json()["keys"]
     for champion_id, name in champion_ids.items():
-        entry = {champion_id: name}
+        entry = {"championId": int(champion_id), "name": name}
         champion_id_collection.update_one(entry, {'$set': entry}, upsert=True)
 
 
@@ -70,6 +70,8 @@ def update_mongodb_champion():
 
     for key, elo in ELO_MAPPING.items():
         skip = 0
+
+        # BATCH QUERIES
         query_results = get_full_champion_info(INTERVAL_CONSTANT, skip, elo)
         print("CURRENT ELO (IF BLANK, IT IS PLATINUM+): ", elo)
 
