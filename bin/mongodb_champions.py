@@ -5,8 +5,8 @@ import json
 import time
 
 # MONGODB CONNECTION
-client = MongoClient("mongodb+srv://henrycwoo:" + urllib.parse.quote(
-    "Mongodb52378@") + "@lolproject-hzh6x.gcp.mongodb.net/test?retryWrites=true")
+client = MongoClient("mongodb+srv://" + urllib.parse.quote("python_updater") + ":" + urllib.parse.quote(
+    "MX8KmZx1oahrPjO3") + "@lolproject-hzh6x.gcp.mongodb.net/test?retryWrites=true")
 
 db = client["lol_statistics"]
 
