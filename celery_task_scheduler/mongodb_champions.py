@@ -11,6 +11,7 @@ client = MongoClient("mongodb+srv://python_updater:" + urllib.parse.quote(
 
 db = client["lol_statistics"]
 
+# GET MONGODB COLLECTION NAMES
 champions_collection = db.champions
 champion_id_collection = db.champion_id
 
@@ -68,6 +69,7 @@ def update_mongodb_champion():
     # UPDATE ANY CHANGES TO CHAMPION ID MAPPING
     update_champion_id()
 
+    # UPDATE ANY CHANGES TO CHAMPION STATISTICS
     for key, elo in ELO_MAPPING.items():
         skip = 0
 
