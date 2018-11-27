@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_restplus import Resource, Api, cors
 from pymongo import MongoClient
+import re
 import json
 
 app = Flask(__name__)
@@ -22,14 +23,18 @@ ELO_COLLECTIONS = {
 }
 
 
+def insert_champion_name(results):
+    for champion in results:
+        championName = CHAMPIONID_COLLECTION.find_one({"championId": champion["championId"]},
+                                                      {"_id": False})["name"]
+        champion["championName"] = re.sub(r"(\w)([A-Z])", r"\1 \2", championName)
+
 @api.route('/champion_data/<string:elo>')
 class ChampionData(Resource):
     @cors.crossdomain(origin='*')
     def get(self, elo):
-        results = list(ELO_COLLECTIONS[elo.lower()].find({}, {"_id": False}).limit(10))
-        for champion in results:
-            champion["championName"] = CHAMPIONID_COLLECTION.find_one({"championId": champion["championId"]},
-                                               {"_id": False})["name"]
+        results = list(ELO_COLLECTIONS[elo.lower()].find({}, {"_id": False}))
+        insert_champion_name(results)
         return json.dumps(results)
 
 
@@ -39,9 +44,7 @@ class ChampionData(Resource):
     def get(self, elo, role):
         results = list(ELO_COLLECTIONS[elo.lower()].find({"role": role.upper()},
                                               {"_id": False}).limit(10))
-        for champion in results:
-            champion["championName"] = CHAMPIONID_COLLECTION.find_one({"championId": champion["championId"]},
-                                                                      {"_id": False})["name"]
+        insert_champion_name(results)
         return json.dumps(results)
 
 
@@ -51,9 +54,7 @@ class ChampionData(Resource):
     def get(self, elo, role, champion_id):
         results = list(ELO_COLLECTIONS[elo.lower()].find({"role": role.upper(), "championId": champion_id},
                                               {"_id": False}).limit(10))
-        for champion in results:
-            champion["championName"] = CHAMPIONID_COLLECTION.find_one({"championId": champion["championId"]},
-                                                                      {"_id": False})["name"]
+        insert_champion_name(results)
         return json.dumps(results)
 
 

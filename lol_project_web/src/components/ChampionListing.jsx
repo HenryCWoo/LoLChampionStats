@@ -40,7 +40,7 @@ class ChampionListing extends Component {
     const columns = [
       {
         Header: "Name",
-        accessor: "championId"
+        accessor: "championName"
       },
       {
         Header: "Win Rate",
