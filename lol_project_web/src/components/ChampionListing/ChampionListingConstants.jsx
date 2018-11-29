@@ -6,6 +6,22 @@ export const roleMapping = {
   TOP: "Top"
 };
 
+export const reverseRoleMapping = {
+  ADC: "DUO_CARRY",
+  Support: "DUO_SUPPORT",
+  Jungle: "JUNGLE",
+  Middle: "MIDDLE",
+  Top: "TOP"
+};
+
+export const leagueMapping = {
+  Bronze: "bronze",
+  Silver: "silver",
+  Gold: "gold",
+  Platinum: "platinum",
+  "Platinum+": "plat_plus"
+};
+
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -34,11 +50,13 @@ export function getSorting(order, orderBy) {
 
 export const styles = theme => ({
   root: {
-    width: "100%",
+    width: "90%",
+    marginRight: "auto",
+    marginLeft: "auto",
     marginTop: theme.spacing.unit * 3
   },
   table: {
-    minWidth: 1020
+    minWidth: 800
   },
   tableWrapper: {
     overflowX: "auto"
@@ -51,5 +69,14 @@ export const styles = theme => ({
   },
   avatar: {
     marginRight: 10
+  },
+  loadingBlob: {
+    width: 128,
+    height: 128,
+    display: "block",
+    marginTop: 300,
+    paddingBottom: 300,
+    marginLeft: "auto",
+    marginRight: "auto"
   }
 });

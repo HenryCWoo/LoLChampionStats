@@ -41,6 +41,15 @@ class EnhancedTableHead extends Component {
     return (
       <TableHead>
         <TableRow>
+          <TableCell
+            key={"rank"}
+            numeric={false}
+            padding="checkbox"
+            sortDirection={false}>
+            <Tooltip title="Ranking" placement="bottom-start" enterDelay={300}>
+              <TableSortLabel>{"#"}</TableSortLabel>
+            </Tooltip>
+          </TableCell>
           {rows.map(row => {
             return (
               <TableCell

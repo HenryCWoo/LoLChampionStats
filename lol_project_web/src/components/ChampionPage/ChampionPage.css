@@ -1,0 +1,20 @@
+.backgroundImage {
+  position: absolute;
+  filter: blur(5px) brightness(0.3);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 0;
+  left: 0px;
+  top: 0px;
+}
+
+.mainBody {
+  position: absolute;
+  left: 0px;
+  top: 50%;
+  z-index: 10;
+  background-color: white;
+  width: 100%;
+  height: 100vh;
+}
