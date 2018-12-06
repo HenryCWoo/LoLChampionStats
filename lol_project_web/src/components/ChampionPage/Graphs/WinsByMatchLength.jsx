@@ -48,8 +48,10 @@ class WinsByMatchLength extends Component {
     };
   }
 
-  componentDidUpdate() {
-    console.log(this.state);
+  componentDidUpdate(prevProps) {
+    if (this.props != prevProps) {
+      this.componentDidMount();
+    }
   }
 
   componentDidMount() {
@@ -120,7 +122,7 @@ class WinsByMatchLength extends Component {
   render() {
     const { palette } = this.props;
     return (
-      <div style={{ width: 600, height: 400 }}>
+      <div style={{ width: 500, height: 300 }}>
         <div
           style={{
             fontWeight: "bold",
@@ -131,8 +133,8 @@ class WinsByMatchLength extends Component {
           Win Rates by Match Length
         </div>
         <ComposedChart
-          width={600}
-          height={400}
+          width={500}
+          height={300}
           data={this.state.data}
           margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
           <XAxis dataKey="name" style={{ fontSize: 12 }} />

@@ -64,6 +64,12 @@ class NormalizedData extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props != prevProps) {
+      this.componentDidMount();
+    }
+  }
+
   componentDidMount() {
     const { data } = this.props;
 

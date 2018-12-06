@@ -16,7 +16,7 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3,
     overflowX: "auto"
   },
-  table: { width: 10 }
+  table: { maxWidth: 400 }
 });
 
 class GeneralStatistics extends Component {
@@ -25,6 +25,12 @@ class GeneralStatistics extends Component {
     this.state = {
       rows: []
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.data.role != prevProps.data.role) {
+      this.componentDidMount();
+    }
   }
 
   componentDidMount() {

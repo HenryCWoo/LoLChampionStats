@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { PieChart, Pie, Sector, Cell, Tooltip } from "recharts";
+import { PieChart, Pie, Sector, Cell, Tooltip, Legend } from "recharts";
 
 class CustomTooltip extends Component {
   constructor(props) {
@@ -34,20 +34,26 @@ class DamageComposition extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props != prevProps) {
+      this.componentDidMount();
+    }
+  }
+
   componentDidMount() {
     const { data, palette } = this.props;
 
     let dmgComp = [];
     dmgComp.push({
-      name: "Physical Damage",
+      name: "Physical",
       value: Math.round(data.percentPhysical * 10000) / 100
     });
     dmgComp.push({
-      name: "Magic Damage",
+      name: "Magic",
       value: Math.round(data.percentMagical * 10000) / 100
     });
     dmgComp.push({
-      name: "True Damage",
+      name: "True",
       value: Math.round(data.percentTrue * 10000) / 100
     });
 
@@ -58,21 +64,32 @@ class DamageComposition extends Component {
   render() {
     const { data, colors } = this.state;
     return (
-      <div style={{ width: 170, height: 110 }}>
-        <PieChart width={170} height={100}>
+      <div style={{ width: 190, height: 150 }}>
+        <PieChart width={190} height={120}>
           <Pie
             data={data}
-            cx={80}
+            cx={90}
             cy={90}
             startAngle={180}
             endAngle={0}
-            innerRadius={60}
-            outerRadius={80}
+            innerRadius={70}
+            outerRadius={90}
             paddingAngle={5}>
             {data.map((entry, index) => (
-              <Cell fill={colors[index % colors.length]} />
+              <Cell
+                key={index + "_damage_comp"}
+                fill={colors[index % colors.length]}
+              />
             ))}
           </Pie>
+          <Legend
+            wrapperStyle={{
+              color: "white",
+              fontSize: 10,
+              marginLeft: 6
+            }}
+            verticalAlign="bottom"
+          />
           <Tooltip content={<CustomTooltip />} />
         </PieChart>
         <div

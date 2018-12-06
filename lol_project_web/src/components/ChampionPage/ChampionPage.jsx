@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import * as Vibrant from "node-vibrant";
 
-import { leagueMapping } from "../ChampionListing/ChampionListingConstants";
+import {
+  leagueMapping,
+  reverseRoleMapping
+} from "../ChampionListing/ChampionListingConstants";
 import "./ChampionPage.css";
 import Helmet from "react-helmet";
 
@@ -11,6 +14,8 @@ import DamageComposition from "./Graphs/DamageComposition";
 import NormalizedData from "./Graphs/NormalizedData";
 import WinsByMatchLength from "./Graphs/WinsByMatchLength";
 import WinsByMatchesPlayed from "./Graphs/WinsByMatchesPlayed";
+import Classes from "./StyleIcons/Classes";
+import Roles from "./StyleIcons/Roles";
 
 const rgbHex = require("rgb-hex");
 
@@ -24,18 +29,33 @@ class ChampionPage extends Component {
     };
   }
 
-  componentWillReceiveProps() {}
+  changeData() {
+    const { params } = this.props.match;
+    console.log(params);
+    this.generalGetRequest(
+      `http://127.0.0.1:5000/single_champion/${leagueMapping[params.league]}/${
+        params.championName
+      }/${reverseRoleMapping[params.role]}`,
+      "data"
+    );
+  }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     console.log(this.state);
+    console.log(this.props);
+    console.log(prevProps);
+    if (prevProps != this.props) {
+      this.changeData();
+    }
   }
 
   componentDidMount() {
     const { params } = this.props.match;
+    console.log(reverseRoleMapping[params.role]);
     this.generalGetRequest(
       `http://127.0.0.1:5000/single_champion/${leagueMapping[params.league]}/${
         params.championName
-      }`,
+      }/${reverseRoleMapping[params.role]}`,
       "data"
     );
 
@@ -106,6 +126,7 @@ class ChampionPage extends Component {
   }
 
   statisticsPanel() {
+    const { params } = this.props.match;
     const { palette, championData, data } = this.state;
     if (palette && championData && data) {
       return (
@@ -114,25 +135,46 @@ class ChampionPage extends Component {
           style={{
             backgroundColor: palette.DarkMuted + "80",
             display: "flex",
-            flexDirection: "row"
+            flexDirection: "row",
+            padding: 20
           }}>
           <div style={{ display: "flex", flexDirection: "column" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-evenly"
+              }}>
+              <Roles
+                palette={palette}
+                params={params}
+              />
+              <Classes tags={championData.tags} palette={palette} />
+              <DamageComposition
+                data={data.damageComposition}
+                palette={palette}
+              />
+            </div>
             <GeneralStatistics data={data} />
-            <DamageComposition
-              data={data.damageComposition}
-              palette={palette}
-            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center"
+            }}>
+            <NormalizedData data={data.normalized} palette={palette} />
+            <div style={{ margin: 10 }} />
             <WinsByMatchLength
               data={data.winsByMatchLength}
               palette={palette}
             />
+            <div style={{ margin: 10 }} />
             <WinsByMatchesPlayed
               data={data.winsByMatchesPlayed}
               palette={palette}
             />
-          </div>
-          <div style={{ margin: 20, marginLeft: 100 }}>
-            <NormalizedData data={data.normalized} palette={palette} />
           </div>
         </div>
       );
