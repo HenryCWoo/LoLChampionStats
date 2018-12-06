@@ -108,15 +108,20 @@ class ChampionPage extends Component {
       return (
         <Fade left>
           <div>
-            <div
-              style={{ color: palette.LightVibrant }}
-              className="profileName">
-              {championData.name}
-            </div>
-            <div style={{ color: palette.LightVibrant }} className="titleName">
-              {championData.title}
-            </div>
-
+            <Fade left>
+              <div
+                style={{ color: palette.LightVibrant }}
+                className="profileName">
+                {championData.name}
+              </div>
+            </Fade>
+            <Fade left>
+              <div
+                style={{ color: palette.LightVibrant }}
+                className="titleName">
+                {championData.title}
+              </div>
+            </Fade>
             <img
               src={require(`../../static/images/${params.championName}/${
                 params.championName
@@ -136,7 +141,7 @@ class ChampionPage extends Component {
     const { palette, championData, data } = this.state;
     if (palette && championData && data) {
       return (
-        <Fade>
+        <Fade big>
           <div
             className="statsPanel"
             style={{
