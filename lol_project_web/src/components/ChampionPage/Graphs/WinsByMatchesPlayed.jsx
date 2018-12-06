@@ -205,7 +205,10 @@ class WinsByMatchesPlayed extends Component {
               <YAxis domain={[0, 1]} style={{ fontSize: 12 }} />
               <ReferenceLine y={0.5} stroke="white" />
               <Tooltip content={<CustomTooltip />} />
-              <Legend wrapperStyle={{ color: "white" }} verticalAlign="top" />
+              <Legend
+                wrapperStyle={{ color: "white", marginLeft: 40 }}
+                verticalAlign="top"
+              />
               <Area
                 name="Win Rate"
                 type="monotone"
@@ -227,7 +230,7 @@ class WinsByMatchesPlayed extends Component {
               <Pie
                 data={playersData}
                 cx={80}
-                cy={140}
+                cy={110}
                 innerRadius={60}
                 outerRadius={80}
                 fill="#8884d8"
@@ -241,7 +244,7 @@ class WinsByMatchesPlayed extends Component {
               </Pie>
               <Legend
                 wrapperStyle={{ color: "white" }}
-                verticalAlign="top"
+                verticalAlign="bottom"
                 height={36}
               />
               <Tooltip content={<CustomPlayersTooltip />} />

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import * as Vibrant from "node-vibrant";
+import Fade from "react-reveal/Fade";
 
 import {
   leagueMapping,
@@ -14,8 +15,8 @@ import DamageComposition from "./Graphs/DamageComposition";
 import NormalizedData from "./Graphs/NormalizedData";
 import WinsByMatchLength from "./Graphs/WinsByMatchLength";
 import WinsByMatchesPlayed from "./Graphs/WinsByMatchesPlayed";
-import Classes from "./StyleIcons/Classes";
-import Roles from "./StyleIcons/Roles";
+import Classes from "./RolesAndClasses/Classes";
+import Roles from "./RolesAndClasses/Roles";
 
 const rgbHex = require("rgb-hex");
 
@@ -105,22 +106,27 @@ class ChampionPage extends Component {
 
     if (palette && championData) {
       return (
-        <div>
-          <div style={{ color: palette.LightVibrant }} className="profileName">
-            {championData.name}
-          </div>
-          <div style={{ color: palette.LightVibrant }} className="titleName">
-            {championData.title}
-          </div>
+        <Fade left>
+          <div>
+            <div
+              style={{ color: palette.LightVibrant }}
+              className="profileName">
+              {championData.name}
+            </div>
+            <div style={{ color: palette.LightVibrant }} className="titleName">
+              {championData.title}
+            </div>
 
-          <img
-            src={require(`../../static/images/${params.championName}/${
-              params.championName
-            }_loading.jpg`)}
-            className="profileImage"
-          />
-          {this.textSample()}
-        </div>
+            <img
+              src={require(`../../static/images/${params.championName}/${
+                params.championName
+              }_loading.jpg`)}
+              className="profileImage"
+            />
+
+            {this.textSample()}
+          </div>
+        </Fade>
       );
     }
   }
@@ -130,53 +136,52 @@ class ChampionPage extends Component {
     const { palette, championData, data } = this.state;
     if (palette && championData && data) {
       return (
-        <div
-          className="statsPanel"
-          style={{
-            backgroundColor: palette.DarkMuted + "80",
-            display: "flex",
-            flexDirection: "row",
-            padding: 20
-          }}>
-          <div style={{ display: "flex", flexDirection: "column" }}>
+        <Fade>
+          <div
+            className="statsPanel"
+            style={{
+              backgroundColor: palette.DarkMuted + "80",
+              display: "flex",
+              flexDirection: "row",
+              padding: 20
+            }}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-evenly"
+                }}>
+                <Roles palette={palette} params={params} />
+                <Classes tags={championData.tags} palette={palette} />
+                <DamageComposition
+                  data={data.damageComposition}
+                  palette={palette}
+                />
+              </div>
+              <GeneralStatistics data={data} />
+            </div>
             <div
               style={{
                 display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-evenly"
+                flexDirection: "column",
+                alignItems: "center"
               }}>
-              <Roles
+              <NormalizedData data={data.normalized} palette={palette} />
+              <div style={{ margin: 10 }} />
+              <WinsByMatchLength
+                data={data.winsByMatchLength}
                 palette={palette}
-                params={params}
               />
-              <Classes tags={championData.tags} palette={palette} />
-              <DamageComposition
-                data={data.damageComposition}
+              <div style={{ margin: 10 }} />
+              <WinsByMatchesPlayed
+                data={data.winsByMatchesPlayed}
                 palette={palette}
               />
             </div>
-            <GeneralStatistics data={data} />
           </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center"
-            }}>
-            <NormalizedData data={data.normalized} palette={palette} />
-            <div style={{ margin: 10 }} />
-            <WinsByMatchLength
-              data={data.winsByMatchLength}
-              palette={palette}
-            />
-            <div style={{ margin: 10 }} />
-            <WinsByMatchesPlayed
-              data={data.winsByMatchesPlayed}
-              palette={palette}
-            />
-          </div>
-        </div>
+        </Fade>
       );
     }
   }
