@@ -45,13 +45,6 @@ class Roles extends Component {
 
   componentDidUpdate() {}
 
-  switchRole = lane => {
-    const { params } = this.props;
-    this.props.history.push(
-      "/champion/" + params.league + "/" + params.championName + "/" + lane
-    );
-  };
-
   render() {
     const { palette, params } = this.props;
     const { roles } = this.state;

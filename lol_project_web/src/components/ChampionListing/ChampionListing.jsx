@@ -10,6 +10,15 @@ import Paper from "@material-ui/core/Paper";
 import { Avatar } from "@material-ui/core";
 import { CircleArrow as ScrollUpButton } from "react-scroll-up-button";
 import { withRouter } from "react-router-dom";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend
+} from "recharts";
 
 import {
   roleMapping,
@@ -164,6 +173,37 @@ class ChampionListing extends Component {
 
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
+  winRateBarChart(n) {
+    let data = [{ name: "data", winRate: n.winRate }];
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          alignItems: "center"
+        }}>
+        <div
+          style={{
+            transform: "rotate(90deg)",
+            justifySelf: "center"
+          }}>
+          <BarChart
+            width={30}
+            height={20}
+            data={data}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+            {/* <XAxis type="number" />
+          <YAxis type="category" /> */}
+            <Bar dataKey="winRate" fill="#8884d8" />
+          </BarChart>
+        </div>
+
+        <div>{(n.winRate * 100).toFixed(2) + "%"}</div>
+      </div>
+    );
+  }
+
   // Will only display if state.fetchInProgress is true
   displayLoading() {
     const { classes } = this.props;
@@ -174,6 +214,7 @@ class ChampionListing extends Component {
         <div>
           <img
             src={require("../../static/loading_blob.gif")}
+            style={{ filter: "brightness(0.6)" }}
             className={classes.loadingBlob}
           />
         </div>
@@ -218,7 +259,7 @@ class ChampionListing extends Component {
                           </div>
                         </TableCell>
                         <TableCell>
-                          {(n.winRate * 100).toFixed(2) + "%"}
+                          <div>{this.winRateBarChart(n)}</div>
                         </TableCell>
                         <TableCell>{roleMapping[n.role]}</TableCell>
                         <TableCell numeric>{n.gamesPlayed}</TableCell>

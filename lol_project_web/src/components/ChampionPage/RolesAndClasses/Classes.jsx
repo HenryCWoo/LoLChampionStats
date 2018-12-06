@@ -5,7 +5,8 @@ const classToIconMapping = {
   Support: "controller_icon.png",
   Mage: "mage_icon.png",
   Tank: "tank_icon.png",
-  Fighter: "fighter_icon.png"
+  Fighter: "fighter_icon.png",
+  Marksman: "marksman_icon.png"
 };
 
 class Classes extends Component {

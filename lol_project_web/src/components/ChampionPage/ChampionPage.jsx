@@ -17,6 +17,7 @@ import WinsByMatchLength from "./Graphs/WinsByMatchLength";
 import WinsByMatchesPlayed from "./Graphs/WinsByMatchesPlayed";
 import Classes from "./RolesAndClasses/Classes";
 import Roles from "./RolesAndClasses/Roles";
+import AdvantageMatchups from "./Matchups/Matchups";
 
 const rgbHex = require("rgb-hex");
 
@@ -166,6 +167,13 @@ class ChampionPage extends Component {
                 />
               </div>
               <GeneralStatistics data={data} />
+              <div style={{ margin: 20 }} />
+              <AdvantageMatchups
+                curChampId={data.championId}
+                championName={championData.name}
+                data={data.matchups[data.role]}
+                palette={palette}
+              />
             </div>
             <div
               style={{
