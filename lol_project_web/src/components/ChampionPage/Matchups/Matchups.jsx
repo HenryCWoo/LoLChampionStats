@@ -48,7 +48,7 @@ class AdvantageMatchups extends Component {
     const { sortedAdvantages } = this.state;
     if (sortedAdvantages) {
       return (
-        <div style={{ width: 600, height: "auto" }}>
+        <div style={{ width: "100%", height: 80 }}>
           <div
             style={{ color: "white", fontWeight: "bold", textAlign: "center" }}>
             Advantage Matchups
@@ -56,7 +56,8 @@ class AdvantageMatchups extends Component {
           <div
             style={{
               display: "flex",
-              justifyContent: "space-evenly"
+              justifyContent: "space-evenly",
+              marginLeft: -80
             }}>
             {sortedAdvantages.map((matchup, index) => {
               if (index < 7) {

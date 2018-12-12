@@ -85,6 +85,10 @@ class WinsByMatchesPlayed extends Component {
 
   componentDidMount() {
     const { data } = this.props;
+    if (!data) {
+      this.setState({ data: null });
+      return;
+    }
     let min = data.oneToFifty.gamesPlayed;
     let max = data.oneToFifty.gamesPlayed;
     for (var key in data) {
@@ -177,82 +181,86 @@ class WinsByMatchesPlayed extends Component {
       palette.LightMuted
     ];
 
-    return (
-      <div>
-        <div
-          style={{
-            fontWeight: "bold",
-            position: "relative",
-            textAlign: "center",
-            color: "white"
-          }}>
-          Win Rates by Matches Played
-        </div>
-        <div
-          style={{
-            width: 600,
-            height: 400,
-            display: "flex",
-            flexDirection: "row"
-          }}>
-          <div>
-            <ComposedChart
-              width={400}
-              height={300}
-              data={data}
-              margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-              <XAxis dataKey="name" style={{ fontSize: 12 }} />
-              <YAxis domain={[0, 1]} style={{ fontSize: 12 }} />
-              <ReferenceLine y={0.5} stroke="white" />
-              <Tooltip content={<CustomTooltip />} />
-              <Legend
-                wrapperStyle={{ color: "white", marginLeft: 40 }}
-                verticalAlign="top"
-              />
-              <Area
-                name="Win Rate"
-                type="monotone"
-                dataKey="rate"
-                fill={palette.Vibrant}
-                stroke={palette.Muted}
-              />
-              <Bar
-                name="Games Analyzed"
-                dataKey="countMinMaxScaled"
-                barSize={20}
-                fill={palette.LightVibrant}
-              />
-            </ComposedChart>
+    if (data) {
+      return (
+        <div>
+          <div
+            style={{
+              fontWeight: "bold",
+              position: "relative",
+              textAlign: "center",
+              color: "white"
+            }}>
+            Win Rates by Matches Played
           </div>
+          <div
+            style={{
+              width: 600,
+              height: 400,
+              display: "flex",
+              flexDirection: "row"
+            }}>
+            <div>
+              <ComposedChart
+                width={400}
+                height={300}
+                data={data}
+                margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+                <XAxis dataKey="name" style={{ fontSize: 12 }} />
+                <YAxis domain={[0, 1]} style={{ fontSize: 12 }} />
+                <ReferenceLine y={0.5} stroke="white" />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend
+                  wrapperStyle={{ color: "white", marginLeft: 40 }}
+                  verticalAlign="top"
+                />
+                <Area
+                  name="Win Rate"
+                  type="monotone"
+                  dataKey="rate"
+                  fill={palette.Vibrant}
+                  stroke={palette.Muted}
+                />
+                <Bar
+                  name="Games Analyzed"
+                  dataKey="countMinMaxScaled"
+                  barSize={20}
+                  fill={palette.LightVibrant}
+                />
+              </ComposedChart>
+            </div>
 
-          <div style={{ marginTop: 10 }}>
-            <PieChart width={170} height={250}>
-              <Pie
-                data={playersData}
-                cx={80}
-                cy={110}
-                innerRadius={60}
-                outerRadius={80}
-                fill="#8884d8"
-                paddingAngle={3}>
-                {data.map((entry, index) => (
-                  <Cell
-                    key={index + "_pie_graph"}
-                    fill={colors[index % colors.length]}
-                  />
-                ))}
-              </Pie>
-              <Legend
-                wrapperStyle={{ color: "white" }}
-                verticalAlign="bottom"
-                height={36}
-              />
-              <Tooltip content={<CustomPlayersTooltip />} />
-            </PieChart>
+            <div style={{ marginTop: 10 }}>
+              <PieChart width={170} height={250}>
+                <Pie
+                  data={playersData}
+                  cx={80}
+                  cy={110}
+                  innerRadius={60}
+                  outerRadius={80}
+                  fill="#8884d8"
+                  paddingAngle={3}>
+                  {data.map((entry, index) => (
+                    <Cell
+                      key={index + "_pie_graph"}
+                      fill={colors[index % colors.length]}
+                    />
+                  ))}
+                </Pie>
+                <Legend
+                  wrapperStyle={{ color: "white" }}
+                  verticalAlign="bottom"
+                  height={36}
+                />
+                <Tooltip content={<CustomPlayersTooltip />} />
+              </PieChart>
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return <div />;
+    }
   }
 }
 

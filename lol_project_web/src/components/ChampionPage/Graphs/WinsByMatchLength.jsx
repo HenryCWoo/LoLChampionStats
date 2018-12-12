@@ -56,6 +56,10 @@ class WinsByMatchLength extends Component {
 
   componentDidMount() {
     const { data } = this.props;
+    if (!data) {
+      this.setState({ data: null });
+      return;
+    }
     let min = data.zeroToFifteen.count;
     let max = data.zeroToFifteen.count;
     for (var key in data) {
@@ -121,43 +125,48 @@ class WinsByMatchLength extends Component {
 
   render() {
     const { palette } = this.props;
-    return (
-      <div style={{ width: 500, height: 300 }}>
-        <div
-          style={{
-            fontWeight: "bold",
-            position: "relative",
-            textAlign: "center",
-            color: "white"
-          }}>
-          Win Rates by Match Length
+    const { data } = this.state;
+    if (data) {
+      return (
+        <div style={{ width: 500, height: 300 }}>
+          <div
+            style={{
+              fontWeight: "bold",
+              position: "relative",
+              textAlign: "center",
+              color: "white"
+            }}>
+            Win Rates by Match Length
+          </div>
+          <ComposedChart
+            width={500}
+            height={300}
+            data={data}
+            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+            <XAxis dataKey="name" style={{ fontSize: 12 }} />
+            <YAxis domain={[0, 1]} style={{ fontSize: 12 }} />
+            <ReferenceLine y={0.5} stroke="white" />
+            <Tooltip content={<CustomTooltip />} />
+            <Legend wrapperStyle={{ color: "white" }} verticalAlign="top" />
+            <Area
+              name="Win Rate"
+              type="monotone"
+              dataKey="rate"
+              fill={palette.Vibrant}
+              stroke={palette.Muted}
+            />
+            <Bar
+              name="Games Analyzed"
+              dataKey="countMinMaxScaled"
+              barSize={20}
+              fill={palette.LightVibrant}
+            />
+          </ComposedChart>
         </div>
-        <ComposedChart
-          width={500}
-          height={300}
-          data={this.state.data}
-          margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-          <XAxis dataKey="name" style={{ fontSize: 12 }} />
-          <YAxis domain={[0, 1]} style={{ fontSize: 12 }} />
-          <ReferenceLine y={0.5} stroke="white" />
-          <Tooltip content={<CustomTooltip />} />
-          <Legend wrapperStyle={{ color: "white" }} verticalAlign="top" />
-          <Area
-            name="Win Rate"
-            type="monotone"
-            dataKey="rate"
-            fill={palette.Vibrant}
-            stroke={palette.Muted}
-          />
-          <Bar
-            name="Games Analyzed"
-            dataKey="countMinMaxScaled"
-            barSize={20}
-            fill={palette.LightVibrant}
-          />
-        </ComposedChart>
-      </div>
-    );
+      );
+    } else {
+      return <div />;
+    }
   }
 }
 

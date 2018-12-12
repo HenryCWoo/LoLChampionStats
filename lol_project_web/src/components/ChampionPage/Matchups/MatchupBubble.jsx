@@ -2,6 +2,34 @@ import React, { Component } from "react";
 import { withRouter, NavLink } from "react-router-dom";
 import { PieChart, Pie, Sector, Cell, Tooltip, Legend } from "recharts";
 import { Avatar } from "@material-ui/core";
+import {
+  setSessionItem,
+  getSessionItem,
+  SESSIONKEYS
+} from "../../SessionStorage/SessionStorageUtils";
+
+class CustomTooltip extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const { active } = this.props;
+    if (active) {
+      const { payload } = this.props;
+      let side = payload[0].name === "" ? "Lossrate" : "Winrate";
+      return (
+        <div style={{ backgroundColor: "white", padding: 5 }}>
+          <div style={{ textAlign: "center", fontSize: 10 }}>{`${side}\n${(
+            100 * payload[0].value
+          ).toFixed(2)}%`}</div>
+        </div>
+      );
+    }
+
+    return null;
+  }
+}
 
 class MatchupBubble extends Component {
   constructor(props) {
@@ -19,7 +47,12 @@ class MatchupBubble extends Component {
     }
   }
 
-  generalGetRequest(url, stateVar) {
+  generalGetRequest(url, stateVar, sessionVar) {
+    let sessionData = getSessionItem(sessionVar);
+    if (sessionData) {
+      this.setState({ [stateVar]: JSON.parse(sessionData) });
+      return;
+    }
     fetch(url, {
       method: "GET",
       cache: "no-cache"
@@ -28,6 +61,7 @@ class MatchupBubble extends Component {
       .then(response => response.json())
       .then(responseJson => {
         this.setState({ [stateVar]: responseJson });
+        setSessionItem(sessionVar, JSON.stringify(responseJson));
       });
   }
 
@@ -53,7 +87,8 @@ class MatchupBubble extends Component {
   componentDidMount() {
     this.generalGetRequest(
       `http://127.0.0.1:5000/champion_id/${this.props.enemyChampId}`,
-      "enemyChampName"
+      "enemyChampName",
+      SESSIONKEYS.CHAMPION_NAME_BY_ID + "_" + this.props.enemyChampId
     );
     this.setData();
   }
@@ -61,7 +96,7 @@ class MatchupBubble extends Component {
   renderAvatar() {
     if (this.state.enemyChampName.name !== "") {
       return (
-        <div style={{ position: "absolute", top: 25, left: 25 }}>
+        <div style={{ position: "absolute", top: 25, left: 25, zIndex: -5 }}>
           <Avatar
             src={require(`../../../static/images/${
               this.state.enemyChampName.name
@@ -94,6 +129,7 @@ class MatchupBubble extends Component {
                 />
               ))}
             </Pie>
+            <Tooltip content={<CustomTooltip />} />
           </PieChart>
         </div>
 

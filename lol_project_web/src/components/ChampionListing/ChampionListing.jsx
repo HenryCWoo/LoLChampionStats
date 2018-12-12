@@ -33,6 +33,11 @@ import EnhancedTableToolbar, {
   DEFAULT_LEAGUE,
   DEFAULT_ROLE
 } from "./EnhancedTableToolbar";
+import {
+  getSessionItem,
+  setSessionItem,
+  SESSIONKEYS
+} from "../SessionStorage/SessionStorageUtils";
 
 class ChampionListing extends Component {
   constructor(props) {
@@ -59,19 +64,7 @@ class ChampionListing extends Component {
     this.setState({ nameQuery: nameQuery, league: league, role: role });
   }
 
-  generalGetRequest(url, stateVar) {
-    fetch(url, {
-      method: "GET",
-      cache: "no-cache"
-    })
-      .catch(error => console.log(error))
-      .then(response => response.json())
-      .then(responseJson => {
-        this.setState({ [stateVar]: responseJson });
-      });
-  }
-
-  changeData(url, ...stateVars) {
+  changeData(url, sessionVar, ...stateVars) {
     this.setState({ fetchInProgress: true });
 
     fetch(url, {
@@ -81,7 +74,9 @@ class ChampionListing extends Component {
       .catch(error => console.log(error))
       .then(response => response.json())
       .then(responseJson => {
-        stateVars.map(stateVar => this.setState({ [stateVar]: responseJson }));
+        stateVars.map(stateVar => {
+          this.setState({ [stateVar]: responseJson });
+        });
         this.setState({ fetchInProgress: false });
       });
   }
@@ -96,6 +91,7 @@ class ChampionListing extends Component {
           `http://127.0.0.1:5000/champion_data/${
             leagueMapping[this.state.league]
           }`,
+          SESSIONKEYS.ALL_CHAMPION_AGG_DATA + this.state.league,
           "data",
           "filteredData"
         )
@@ -137,8 +133,34 @@ class ChampionListing extends Component {
       "data",
       "filteredData"
     );
-    this.generalGetRequest("http://127.0.0.1:5000/champion_id", "championId");
-    this.generalGetRequest("http://127.0.0.1:5000/patch", "patchVersion");
+    this.generalGetRequest(
+      "http://127.0.0.1:5000/champion_id",
+      "championId",
+      SESSIONKEYS.CHAMPION_ID
+    );
+    this.generalGetRequest(
+      "http://127.0.0.1:5000/patch",
+      "patchVersion",
+      SESSIONKEYS.PATCH_VERSION
+    );
+  }
+
+  generalGetRequest(url, stateVar, sessionVar) {
+    let sessionData = getSessionItem(sessionVar);
+    if (sessionData) {
+      this.setState({ [stateVar]: JSON.parse(sessionData) });
+      return;
+    }
+    fetch(url, {
+      method: "GET",
+      cache: "no-cache"
+    })
+      .catch(error => console.log(error))
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState({ [stateVar]: responseJson });
+        setSessionItem(sessionVar, JSON.stringify(responseJson));
+      });
   }
 
   handleRequestSort = (event, property) => {
@@ -189,10 +211,10 @@ class ChampionListing extends Component {
             justifySelf: "center"
           }}>
           <BarChart
-            width={30}
+            width={50}
             height={20}
             data={data}
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+            margin={{ top: 5, right: 20, left: 20, bottom: 5 }}>
             {/* <XAxis type="number" />
           <YAxis type="category" /> */}
             <Bar dataKey="winRate" fill="#8884d8" />

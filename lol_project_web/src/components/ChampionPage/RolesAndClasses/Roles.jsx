@@ -4,6 +4,11 @@ import {
   roleMapping
 } from "../../ChampionListing/ChampionListingConstants";
 import { withRouter, NavLink } from "react-router-dom";
+import {
+  setSessionItem,
+  getSessionItem,
+  SESSIONKEYS
+} from "../../SessionStorage/SessionStorageUtils";
 
 const roleToIconMapping = {
   Top: "top_icon.png",
@@ -21,7 +26,12 @@ class Roles extends Component {
     };
   }
 
-  generalGetRequest(url, stateVar) {
+  generalGetRequest(url, stateVar, sessionVar) {
+    let sessionData = getSessionItem(sessionVar);
+    if (sessionData) {
+      this.setState({ [stateVar]: JSON.parse(sessionData) });
+      return;
+    }
     fetch(url, {
       method: "GET",
       cache: "no-cache"
@@ -30,6 +40,7 @@ class Roles extends Component {
       .then(response => response.json())
       .then(responseJson => {
         this.setState({ [stateVar]: responseJson });
+        setSessionItem(sessionVar, JSON.stringify(responseJson));
       });
   }
 
@@ -39,7 +50,8 @@ class Roles extends Component {
       `http://127.0.0.1:5000/champion_roles/${leagueMapping[params.league]}/${
         params.championName
       }`,
-      "roles"
+      "roles",
+      SESSIONKEYS.ROLES_OF_CHAMPION + params.championName + params.league
     );
   }
 
