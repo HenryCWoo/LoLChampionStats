@@ -56,10 +56,7 @@ class CustomPlayersTooltip extends Component {
             {payload[0].payload.name} Matches Played
           </div>
           <div style={{ textAlign: "center", fontSize: 10 }}>
-            Win Rate: {(100 * payload[0].payload.rate).toFixed(2)}%
-          </div>
-          <div style={{ textAlign: "center", fontSize: 10 }}>
-            Games Analyzed: {payload[0].payload.games}
+            Games Analyzed: {payload[0].value}
           </div>
         </div>
       );

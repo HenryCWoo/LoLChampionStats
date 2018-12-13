@@ -64,8 +64,17 @@ class ChampionListing extends Component {
     this.setState({ nameQuery: nameQuery, league: league, role: role });
   }
 
-  changeData(url, ...stateVars) {
+  changeData(url, sessionVar, ...stateVars) {
     this.setState({ fetchInProgress: true });
+
+    let sessionData = getSessionItem(sessionVar);
+    if (sessionData) {
+      stateVars.map(stateVar => {
+        this.setState({ [stateVar]: JSON.parse(sessionData) });
+        this.setState({ fetchInProgress: false });
+      });
+      return;
+    }
 
     fetch(url, {
       method: "GET",
@@ -77,6 +86,7 @@ class ChampionListing extends Component {
         stateVars.map(stateVar => {
           this.setState({ [stateVar]: responseJson });
         });
+        setSessionItem(sessionVar, JSON.stringify(responseJson));
         this.setState({ fetchInProgress: false });
       });
   }
@@ -178,7 +188,7 @@ class ChampionListing extends Component {
       "/champion/" +
         this.state.league +
         "/" +
-        champion["championName"] +
+        champion["championName"].replace(/\s/g, "") +
         "/" +
         roleMapping[champion["role"]]
     );

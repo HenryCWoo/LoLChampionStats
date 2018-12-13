@@ -28,7 +28,7 @@ class GeneralStatistics extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.data.role != prevProps.data.role) {
+    if (this.props != prevProps) {
       this.componentDidMount();
     }
   }

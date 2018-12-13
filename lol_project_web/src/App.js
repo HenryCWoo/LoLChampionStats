@@ -8,15 +8,17 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 class App extends Component {
   render() {
     return (
-      <Router>
-        <div>
-          <Route path="/" exact component={ChampionListing} />
-          <Route
-            path="/champion/:league/:championName/:role"
-            component={ChampionPage}
-          />
-        </div>
-      </Router>
+      <div>
+        <Router>
+          <div>
+            <Route path="/" exact component={ChampionListing} />
+            <Route
+              path="/champion/:league/:championName/:role"
+              component={ChampionPage}
+            />
+          </div>
+        </Router>
+      </div>
     );
   }
 }

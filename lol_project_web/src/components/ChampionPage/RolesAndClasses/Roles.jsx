@@ -55,7 +55,11 @@ class Roles extends Component {
     );
   }
 
-  componentDidUpdate() {}
+  componentDidUpdate(prevProps) {
+    if (this.props != prevProps) {
+      this.componentDidMount();
+    }
+  }
 
   render() {
     const { palette, params } = this.props;
