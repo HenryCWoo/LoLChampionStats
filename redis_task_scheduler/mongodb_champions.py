@@ -1,7 +1,7 @@
 import time
 
-import celery_task_scheduler.update_champion_id
-from celery_task_scheduler.update_metadata import *
+from .update_champion_id import *
+from .update_metadata import *
 
 # MONGODB CONNECTION
 client = MongoClient(
@@ -48,7 +48,7 @@ def update_mongodb():
 
     # # UPDATE CHAMPION ID DATA
     if riot_static_api_versions_updated:
-        celery_task_scheduler.update_champion_id.update_champion_id()
+        update_champion_id.update_champion_id()
 
     # UPDATE ANY CHANGES TO CHAMPION STATISTICS
     if elo_agg_indices_updated:
@@ -61,9 +61,9 @@ def update_mongodb():
                 elo_name = elo.lower()
 
             production_collection_name = elo_name + "_agg"
-            production_collection = celery_task_scheduler.update_champion_id.db[production_collection_name]
+            production_collection = update_champion_id.db[production_collection_name]
             temporary_collection_name = elo_name + "_temp"
-            temporary_collection = celery_task_scheduler.update_champion_id.db[temporary_collection_name]
+            temporary_collection = update_champion_id.db[temporary_collection_name]
             temporary_collection.drop()
 
             # BATCH QUERIES

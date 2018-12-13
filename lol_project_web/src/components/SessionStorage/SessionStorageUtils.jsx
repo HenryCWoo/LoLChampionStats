@@ -12,6 +12,5 @@ export const SESSIONKEYS = {
   CHAMPION_ID: "all_champion_ids",
   PATCH_VERSION: "current_patch_version",
   CHAMPION_NAME_BY_ID: "champion_name_by_id",
-  ROLES_OF_CHAMPION: "roles_of_champion",
-  ALL_CHAMPION_AGG_DATA: "all_champion_agg_data"
+  ROLES_OF_CHAMPION: "roles_of_champion"
 };

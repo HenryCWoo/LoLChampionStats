@@ -42,7 +42,7 @@ class ItemRow extends Component {
 
   displayNumStats(stats) {
     const { palette } = this.props;
-    if (stats.winrate && stats.count) {
+    if (stats) {
       return (
         <div
           style={{

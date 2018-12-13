@@ -1,8 +1,9 @@
+import json
+import re
+
 from flask import Flask
 from flask_restplus import Resource, Api, cors
 from pymongo import MongoClient
-import re
-import json
 
 app = Flask(__name__)
 api = Api(app)
@@ -29,6 +30,7 @@ def insert_champion_name(results):
                                                       {"_id": False})["name"]
         champion["championName"] = re.sub(r"(\w)([A-Z])", r"\1 \2", championName)
 
+
 @api.route('/champion_data/<string:elo>')
 class ChampionData(Resource):
     @cors.crossdomain(origin='*')
@@ -43,7 +45,7 @@ class ChampionData(Resource):
     @cors.crossdomain(origin='*')
     def get(self, elo, role):
         results = list(ELO_COLLECTIONS[elo.lower()].find({"role": role.upper()},
-                                              {"_id": False}).limit(10))
+                                                         {"_id": False}).limit(10))
         insert_champion_name(results)
         return json.dumps(results)
 
@@ -53,10 +55,9 @@ class ChampionData(Resource):
     @cors.crossdomain(origin='*')
     def get(self, elo, role, champion_id):
         results = list(ELO_COLLECTIONS[elo.lower()].find({"role": role.upper(), "championId": champion_id},
-                                              {"_id": False}).limit(10))
+                                                         {"_id": False}).limit(10))
         insert_champion_name(results)
         return json.dumps(results)
-
 
 
 # ChampionId data
@@ -67,12 +68,13 @@ class ChampionData(Resource):
     def get(self):
         return json.dumps(list(CHAMPIONID_COLLECTION.find({}, {"_id": False})))
 
+
 @api.route('/champion_id/<int:champion_id>')
 class ChampionData(Resource):
     @cors.crossdomain(origin='*')
     def get(self, champion_id):
         return json.dumps(list(CHAMPIONID_COLLECTION.find_one({"championId": champion_id},
-                                               {"_id": False})))
+                                                              {"_id": False})))
 
 
 if __name__ == "__main__":

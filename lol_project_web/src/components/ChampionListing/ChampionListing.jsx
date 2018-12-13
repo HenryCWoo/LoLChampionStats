@@ -64,7 +64,7 @@ class ChampionListing extends Component {
     this.setState({ nameQuery: nameQuery, league: league, role: role });
   }
 
-  changeData(url, sessionVar, ...stateVars) {
+  changeData(url, ...stateVars) {
     this.setState({ fetchInProgress: true });
 
     fetch(url, {
@@ -91,7 +91,6 @@ class ChampionListing extends Component {
           `http://127.0.0.1:5000/champion_data/${
             leagueMapping[this.state.league]
           }`,
-          SESSIONKEYS.ALL_CHAMPION_AGG_DATA + this.state.league,
           "data",
           "filteredData"
         )
@@ -179,7 +178,7 @@ class ChampionListing extends Component {
       "/champion/" +
         this.state.league +
         "/" +
-        champion["originalChampionName"] +
+        champion["championName"] +
         "/" +
         roleMapping[champion["role"]]
     );
@@ -226,6 +225,21 @@ class ChampionListing extends Component {
     );
   }
 
+  renderAvatar(championName) {
+    const { classes } = this.props;
+    if (championName)
+      return (
+        <Avatar
+          src={require("../../static/images/" +
+            championName.replace(/\s/g, "") +
+            "/" +
+            championName.replace(/\s/g, "") +
+            "_square.jpg")}
+          className={classes.avatar}
+        />
+      );
+  }
+
   // Will only display if state.fetchInProgress is true
   displayLoading() {
     const { classes } = this.props;
@@ -262,21 +276,13 @@ class ChampionListing extends Component {
                         hover
                         onClick={event => this.handleClick(event, n)}
                         tabIndex={-1}
-                        key={n._id}>
+                        key={index + "championTableRow"}>
                         <TableCell padding="checkbox">
                           {index + 1 + page * rowsPerPage}
                         </TableCell>
                         <TableCell component="th" scope="row">
                           <div className={classes.row}>
-                            <Avatar
-                              src={require("../../static/images/" +
-                                n.originalChampionName +
-                                "/" +
-                                n.originalChampionName +
-                                "_square.jpg")}
-                              className={classes.avatar}
-                            />
-
+                            {this.renderAvatar(n.championName)}
                             <div>{n.championName}</div>
                           </div>
                         </TableCell>
