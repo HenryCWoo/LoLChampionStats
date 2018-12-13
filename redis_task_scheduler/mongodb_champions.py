@@ -2,6 +2,7 @@ import time
 
 from .update_champion_id import *
 from .update_metadata import *
+from rq.decorators import job
 
 # MONGODB CONNECTION
 client = MongoClient(
@@ -38,6 +39,7 @@ def get_full_champion_info(limit, skip, elo):
 ##############################################
 #               MONGODB UPDATES              #
 ##############################################
+@job('low')
 def update_mongodb():
     # UPDATE METADATA
     riot_static_api_versions_updated = update_riot_static_api_versions()
