@@ -1,8 +1,9 @@
 import time
 
-from .update_champion_id import *
-from .update_metadata import *
 from rq.decorators import job
+from update_champion_id import *
+from update_image_resources import *
+from update_metadata import *
 
 # MONGODB CONNECTION
 client = MongoClient(
@@ -39,18 +40,12 @@ def get_full_champion_info(limit, skip, elo):
 ##############################################
 #               MONGODB UPDATES              #
 ##############################################
-@job('low')
-def update_mongodb():
+@job('high', timeout=180)
+def update_aggs():
     # UPDATE METADATA
-    riot_static_api_versions_updated = update_riot_static_api_versions()
     elo_agg_indices_updated = update_elo_agg_versions()
 
-    print(riot_static_api_versions_updated)
     print(elo_agg_indices_updated)
-
-    # # UPDATE CHAMPION ID DATA
-    if riot_static_api_versions_updated:
-        update_champion_id.update_champion_id()
 
     # UPDATE ANY CHANGES TO CHAMPION STATISTICS
     if elo_agg_indices_updated:
@@ -63,9 +58,9 @@ def update_mongodb():
                 elo_name = elo.lower()
 
             production_collection_name = elo_name + "_agg"
-            production_collection = update_champion_id.db[production_collection_name]
+            production_collection = db[production_collection_name]
             temporary_collection_name = elo_name + "_temp"
-            temporary_collection = update_champion_id.db[temporary_collection_name]
+            temporary_collection = db[temporary_collection_name]
             temporary_collection.drop()
 
             # BATCH QUERIES
@@ -98,5 +93,17 @@ def update_mongodb():
             temporary_collection.rename(production_collection_name)
             print("SUCCESSFULLY UPDATED", production_collection_name)
 
-if __name__ == "__main__":
-    update_mongodb()
+
+@job('high', timeout=180)
+def update_resources_and_static_data():
+    riot_static_api_versions_updated = update_riot_static_api_versions()
+    print(riot_static_api_versions_updated)
+    # UPDATE CHAMPION ID DATA
+    if riot_static_api_versions_updated:
+        update_champion_id()
+        update_champion_info()
+        update_champion_image_resources()
+        update_item_image_resources()
+        update_summoners_image_resources()
+# if __name__ == "__main__":
+#     update_mongodb()

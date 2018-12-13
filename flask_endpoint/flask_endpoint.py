@@ -38,12 +38,15 @@ def convert_id_to_string(results):
         champion["_id"] = str(champion["_id"])
 
 
-
+# Used for the champion_listing page
 @api.route('/champion_data/<string:elo>')
 class ChampionData(Resource):
     @cors.crossdomain(origin='*')
     def get(self, elo):
-        results = list(ELO_COLLECTIONS[elo.lower()].find({}))
+        results = list(ELO_COLLECTIONS[elo.lower()].find({},
+                                                         {"championId": 1, "role": 1, "assists": 1, "averageGames": 1,
+                                                          "banRate": 1, "deaths": 1, "gamesPlayed": 1, "goldEarned": 1,
+                                                          "kills": 1, "minionsKilled": 1, "playRate": 1, "winRate": 1}))
         insert_champion_name(results)
         convert_id_to_string(results)
         return json.dumps(results)
@@ -103,7 +106,6 @@ class ChampionData(Resource):
         results = list(CHAMPIONID_COLLECTION.find({}))
         convert_id_to_string(results)
         return json.dumps(results)
-
 
 
 @api.route('/champion_id/<int:champion_id>')

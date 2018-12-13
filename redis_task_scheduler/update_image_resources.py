@@ -81,7 +81,7 @@ def update_summoners_image_resources():
         print("Retrieved item:", mastery_id)
 
 
-if __name__ == "__main__":
-    # update_champion_image_resources()
-    # update_item_image_resources()
-    update_summoners_image_resources()
+# if __name__ == "__main__":
+#     # update_champion_image_resources()
+#     # update_item_image_resources()
+#     # update_summoners_image_resources()
