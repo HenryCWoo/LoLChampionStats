@@ -2,6 +2,11 @@
 
 This project displays aggregated data from the popular game, League of Legends by Riot Games. Data such as the winrates, banrates, average playerbase KDA's and more are presented in an organized fashion. This project focused on providing a nice user interface and maintainable code for future extensions. Data is provided by Champion.gg API. This project is not currently hosted on a public server.
 
+## Preview
+
+![alt text](https://github.com/HenryCWoo/LeagueStats/blob/master/readme_image_resources/Loading.gif)
+
+
 ## Built With
 
 * [MongoDB](https://www.mongodb.com/) - The database used to cache aggregated data
