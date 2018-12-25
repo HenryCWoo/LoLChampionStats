@@ -64,15 +64,16 @@ class ChampionListing extends Component {
     this.setState({ nameQuery: nameQuery, league: league, role: role });
   }
 
-  changeData(url, sessionVar, ...stateVars) {
+  changeData(url, ...stateVars) {
     this.setState({ fetchInProgress: true });
 
-    let sessionData = getSessionItem(sessionVar);
+    let sessionData = getSessionItem(SESSIONKEYS.RIOT_CHAMPION_DATA);
     if (sessionData) {
       stateVars.map(stateVar => {
+        console.log(stateVar);
         this.setState({ [stateVar]: JSON.parse(sessionData) });
-        this.setState({ fetchInProgress: false });
       });
+      this.setState({ fetchInProgress: false });
       return;
     }
 
@@ -86,7 +87,10 @@ class ChampionListing extends Component {
         stateVars.map(stateVar => {
           this.setState({ [stateVar]: responseJson });
         });
-        setSessionItem(sessionVar, JSON.stringify(responseJson));
+        setSessionItem(
+          SESSIONKEYS.RIOT_CHAMPION_DATA,
+          JSON.stringify(responseJson)
+        );
         this.setState({ fetchInProgress: false });
       });
   }
