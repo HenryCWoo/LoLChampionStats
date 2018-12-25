@@ -63,7 +63,7 @@ class MenuBar extends Component {
           palette: {
             primary: {
               light: "#757ce8",
-              main: palette ? palette.DarkMuted : "rgba(0, 0, 0, 0)",
+              main: palette ? palette.DarkVibrant : "rgba(0, 0, 0, 0)",
               dark: "#002884",
               contrastText: "#fff"
             }
