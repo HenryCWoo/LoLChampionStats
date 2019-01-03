@@ -5,8 +5,8 @@ This project displays aggregated data from the popular game, League of Legends b
 ## Preview
 
 ### Upon entering the web app, users may have to wait for the data to load in. If the data is cached, the page will load instantly. This page is for users to find and browse champions they are interested in.
-<img src="https://github.com/HenryCWoo/LeagueStats/blob/master/readme_image_resources/Loading.gif" width=600 height=300/>
-<img src="https://github.com/HenryCWoo/LeagueStats/blob/master/readme_image_resources/list_scrolling.gif" width=600 height=300/>
+[Main Page](https://github.com/HenryCWoo/LeagueStats/blob/master/readme_image_resources/Loading.gif)
+[Main Page - Scrolling List](https://github.com/HenryCWoo/LeagueStats/blob/master/readme_image_resources/list_scrolling.gif)
 
 ### After clicking on a champion from the listings page, users will be presented with a page filled with statistics. Users may notice that the color scheme of the page fits the character chosen.
 [Browse Stats and Experience the UI/UX](https://github.com/HenryCWoo/LoLChampionStats/blob/master/readme_image_resources/browse_stats.gif)
