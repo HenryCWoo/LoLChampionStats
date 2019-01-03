@@ -8,6 +8,7 @@ This project displays aggregated data from the popular game, League of Legends b
 <p align="center">
 <img src="https://github.com/HenryCWoo/LeagueStats/blob/master/readme_image_resources/Loading.gif" width=600 height=300/>
 <img src="https://github.com/HenryCWoo/LeagueStats/blob/master/readme_image_resources/list_scrolling.gif" width=600 height=300/>
+<img src="https://github.com/HenryCWoo/LeagueStats/blob/master/readme_image_resources/listing_searching_bar.gif" width=600 height=300/>
 </p>
 
 ### After clicking on a champion from the listings page, users will be presented with a page filled with statistics. Users may notice that the color scheme of the page fits the character chosen.
