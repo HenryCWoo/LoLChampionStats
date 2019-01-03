@@ -5,18 +5,17 @@ This project displays aggregated data from the popular game, League of Legends b
 ## Preview
 
 ### Upon entering the web app, users may have to wait for the data to load in. If the data is cached, the page will load instantly. This page is for users to find and browse champions they are interested in.
-[Main Page](https://github.com/HenryCWoo/LeagueStats/blob/master/readme_image_resources/Loading.gif)
-
-[Main Page - Scrolling List](https://github.com/HenryCWoo/LeagueStats/blob/master/readme_image_resources/list_scrolling.gif)
+<img src="https://github.com/HenryCWoo/LeagueStats/blob/master/readme_image_resources/Loading.gif" width=600 height=300/>
+<img src="https://github.com/HenryCWoo/LeagueStats/blob/master/readme_image_resources/list_scrolling.gif" width=600 height=300/>
 
 ### After clicking on a champion from the listings page, users will be presented with a page filled with statistics. Users may notice that the color scheme of the page fits the character chosen.
-[Browse Stats and Experience the UI/UX](https://github.com/HenryCWoo/LoLChampionStats/blob/master/readme_image_resources/browse_stats.gif)
+<img src="https://github.com/HenryCWoo/LoLChampionStats/blob/master/readme_image_resources/browse_stats.gif" width=600 height=300/>
 
 ### From the listing page, users may also quickly find their desired champions using the search bar. Once a champion is chosen, they may quickly change the statistics for specific roles of a champion by clicking on the icons in the "Roles" section.
-[Champion Role Swapping and Filtering by Name](https://github.com/HenryCWoo/LeagueStats/blob/master/readme_image_resources/listing_search_and_roles.gif)
+<img src="https://github.com/HenryCWoo/LeagueStats/blob/master/readme_image_resources/listing_search_and_roles.gif" width=600 height=300/>
 
 ### Users may choose not to go back to the listing page and simply input a champion name in the search bar at the top. Autocomplete is available to quickly search for the desired champion. Components are reused to quickly render the desired webpage.
-[Champion Search Functionality](https://github.com/HenryCWoo/LeagueStats/blob/master/readme_image_resources/search_champs.gif)
+<img src="https://github.com/HenryCWoo/LeagueStats/blob/master/readme_image_resources/search_champs.gif" width=600 height=300/>
 
 ## Built With
 
